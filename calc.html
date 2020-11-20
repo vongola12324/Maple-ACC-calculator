@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+body{
+	background-image: url("bgside1.png"),url("bgside2.png"),url("bacg.png");
+	background-repeat:repeat-y,repeat-y,no-repeat;
+	background-position: left,right,center bottom 90%;
+	background-size:10%,10%,90%;
+	background-color: #000000;
+}
+.row-select {
+	display:grid;
+	grid-template-columns: auto auto auto;
+	padding:5px;
+	width:30%;
+	margin:0 20% auto 20%;
+}
+#content {
+	background-color:rgb(255, 153, 0,0.6);
+	width:40%;
+	margin:auto;
+	border: 5px solid #ff0000;
+	border-radius: 15px;
+}
+.row-mob {
+	display:grid;
+	grid-template-columns: auto auto;
+	padding:5px;
+	width:40%;
+	margin:auto;
+}
+.item {
+	border: 2px solid;
+	padding: 10px;
+}
+.row-char {
+	border: 2px solid;
+	padding: 5px;
+}
+</style>
+<script>
+function dmgType(type) {
+	if(type == 'INT:')
+		document.getElementById("luk").disabled=false;
+	else
+		document.getElementById("luk").disabled=true;
+	document.getElementById("dmgType").innerHTML=type;
+}
+</script>
+</head>
+	<body>
+		<div id="content">
+			<div class="row-select">
+				<div class="row-char">
+					<fieldset>
+					<legend>Character Stats</legend>
+						<label for="level">Level:</label>
+						<input type="number" id="level" min="1" max ="200">
+						<br>
+						<input type="radio" id="physical" name="type" onclick="dmgType('ACC:')" checked>
+						<label for="physical">Physical</label>
+						<br>
+						<input type="radio" id="magical" name="type" onclick="dmgType('INT:')">
+						<label for="magical">Magical</label>
+						<br>
+						<label for="mainstat" id="dmgType">ACC:</label>
+						<input type="number" id="mainstat" min="4" max ="999">
+						<br>
+						<label for="luk" id="dmgType">LUK:</label>
+						<input type="number" id="luk" disabled="true" min="4" max ="999">
+					</fieldset>
+				</div>
+				<div class="item">
+					<fieldset>
+					<legend>Areas</legend>
+					<select size="7" name="areas" id="areas" >
+						<option value="all">All Worlds</option>
+						<option value="bos">Bosses</option>
+						<option value="pqs">Party Quests</option>
+						<option value="vic">Victoria Island</option>
+						<option value="orb">Orbis/El Nath/Aqua Road</option>
+						<option value="lud">Ludibrium/Ellin Forest</option>
+						<option value="mul">Mu Lung/Herb Town</option>
+						<option value="mag">Magatia</option>
+						<option value="lea">Leafre/Temple of Time</option>
+						<option value="wot">World Tour</option>
+						<option value="neo">Neo Tokyo</option>
+						
+					</select>
+					</fieldset>
+				</div>
+				<div class="row-char">
+					<fieldset>
+					<legend>Mob</legend>
+						<select size="8" name="mobs" id="mobs">
+							<option value="VicIsland">Test</option>
+						</select>
+					</fieldset>
+				</div>
+			</div>
+			<br>
+			<div class="row-mob">
+				<div class="item">test</div>
+				<div class="item">test2</div>
+			</div>
+		</div>
+	</body>
+
+</html>
