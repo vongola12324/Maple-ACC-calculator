@@ -43,6 +43,7 @@ body{
 }
 </style>
 		<script>
+			var loadedjson = null;
 			function dmgType(type) {
 				if(type == 'INT:')
 					document.getElementById("luk").disabled=false;
@@ -51,7 +52,13 @@ body{
 				document.getElementById("dmgType").innerHTML=type;
 			}
 			function worldSelect(world){
-				alert(world);
+				$.getJSON('https://mrsoupman.github.io/Maple-ACC-calculator/Monsters/' + world + '.json',function(data){
+					loadedjson = data;
+					$('#mobs').empty();
+					$.each(data, function(key, value) {
+						$('#mobs').append('<option value="' + key + '">' + key + '</option>');
+					});
+				});	
 			}
 		</script>
 		
@@ -63,7 +70,7 @@ body{
 					<fieldset>
 					<legend>Character Stats</legend>
 						<label for="level">Level:</label>
-						<input type="number" id="level" min="1" max ="200">
+						<input type="number" id="level" min="1" max ="200" value="1">
 						<br>
 						<input type="radio" id="physical" name="type" onclick="dmgType('ACC:')" checked>
 						<label for="physical">Physical</label>
@@ -72,10 +79,10 @@ body{
 						<label for="magical">Magical</label>
 						<br>
 						<label for="mainstat" id="dmgType">ACC:</label>
-						<input type="number" id="mainstat" min="4" max ="999">
+						<input type="number" id="mainstat" min="4" max ="999" value="4">
 						<br>
 						<label for="luk" id="dmgType">LUK:</label>
-						<input type="number" id="luk" disabled="true" min="4" max ="999">
+						<input type="number" id="luk" disabled="true" min="4" max ="999" value="4">
 					</fieldset>
 				</div>
 				<div class="item">
