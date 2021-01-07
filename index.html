@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!--Hi if you're reading this do me a favor and stop or your eyes will bleed -->
 <html>
 <head>
 	<meta charset="utf-8">
@@ -6,18 +7,17 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<style>
 body{
-	background-image: url("bgside1.png"),url("bgside2.png"),url("bacg.png");
-	background-repeat:repeat-y,repeat-y,no-repeat;
-	background-position: left,right,center bottom 90%;
-	background-size:10%,10%,90%;
-	background-color: #000000;
+	background-color: #282828;
 }
 .row-select {
 	display:grid;
 	grid-template-columns: auto auto auto;
 	padding:5px;
-	width:30%;
+	width:50%;
 	margin:0 auto auto auto;
+}
+.mob {
+	grid-template-columns: 40% 60%;
 }
 #content {
 	background-color:rgb(245, 163, 76,0.8);
@@ -26,20 +26,9 @@ body{
 	border: 5px solid #f5bc4c;
 	border-radius: 15px;
 }
-.row-mob {
-	display:grid;
-	grid-template-columns: auto auto;
-	padding:5px;
-	width:40%;
-	margin:auto;
-}
 .item {
 	border: 2px solid;
 	padding: 10px;
-}
-.row-char {
-	border: 2px solid;
-	padding: 5px;
 }
 </style>
 		<script>
@@ -65,8 +54,8 @@ body{
 </head>
 	<body>
 		<div id="content">
-			<div class="row-select">
-				<div class="row-char">
+			<div class="row-select">			
+				<div class="item">
 					<fieldset>
 					<legend>Character Stats</legend>
 						<label for="level">Level:</label>
@@ -110,15 +99,25 @@ body{
 					</select>
 					</fieldset>
 				</div>
-				<div class="row-char">
+				<div class="item">
 					<fieldset>
 					<legend>Mob</legend>
+						<input></input>
 						<select size="7" name="mobs" id="mobs">
 							<option>Please select a world</option>
 						</select>
 					</fieldset>
 				</div>
-			</div>		
+			</div>	
+			<div class="row-select mob">
+				<div class="item">
+					
+				</div>
+				<div class="item">
+					
+				</div>
+				
+			</div>
 		</div>
 	</body>
 
