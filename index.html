@@ -1,7 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-<style>
+	<meta charset="utf-8">
+	<title>ML Accuracy Calculator</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<style>
 body{
 	background-image: url("bgside1.png"),url("bgside2.png"),url("bacg.png");
 	background-repeat:repeat-y,repeat-y,no-repeat;
@@ -14,13 +17,13 @@ body{
 	grid-template-columns: auto auto auto;
 	padding:5px;
 	width:30%;
-	margin:0 20% auto 20%;
+	margin:0 auto auto auto;
 }
 #content {
-	background-color:rgb(255, 153, 0,0.6);
-	width:40%;
+	background-color:rgb(245, 163, 76,0.8);
+	width:60%;
 	margin:auto;
-	border: 5px solid #ff0000;
+	border: 5px solid #f5bc4c;
 	border-radius: 15px;
 }
 .row-mob {
@@ -39,15 +42,19 @@ body{
 	padding: 5px;
 }
 </style>
-<script>
-function dmgType(type) {
-	if(type == 'INT:')
-		document.getElementById("luk").disabled=false;
-	else
-		document.getElementById("luk").disabled=true;
-	document.getElementById("dmgType").innerHTML=type;
-}
-</script>
+		<script>
+			function dmgType(type) {
+				if(type == 'INT:')
+					document.getElementById("luk").disabled=false;
+				else
+					document.getElementById("luk").disabled=true;
+				document.getElementById("dmgType").innerHTML=type;
+			}
+			function worldSelect(world){
+				alert(world);
+			}
+		</script>
+		
 </head>
 	<body>
 		<div id="content">
@@ -74,18 +81,25 @@ function dmgType(type) {
 				<div class="item">
 					<fieldset>
 					<legend>Areas</legend>
-					<select size="7" name="areas" id="areas" >
+					<select size="7" class="areas" onchange="worldSelect(this.value)">
 						<option value="all">All Worlds</option>
-						<option value="bos">Bosses</option>
-						<option value="pqs">Party Quests</option>
-						<option value="vic">Victoria Island</option>
-						<option value="orb">Orbis/El Nath/Aqua Road</option>
-						<option value="lud">Ludibrium/Ellin Forest</option>
-						<option value="mul">Mu Lung/Herb Town</option>
-						<option value="mag">Magatia</option>
-						<option value="lea">Leafre/Temple of Time</option>
-						<option value="wot">World Tour</option>
-						<option value="neo">Neo Tokyo</option>
+						<option value="Bosses">Bosses</option>
+						<option value="Aqua">Aqua Road</option>
+						<option value="China">China</option>
+						<option value="LudusLake">LudusLake</option>
+						<option value="Masteria">Masteria</option>
+						<option value="Minar">Minar</option>
+						<option value="MuLung">Mu Lung</option>
+						<option value="Neotokyo">Neotokyo</option>
+						<option value="Nihal">Ariant/Magatia</option>
+						<option value="Orbis/El Nath">Orbis/El Nath</option>
+						<option value="PQ">PQ/Job</option>
+						<option value="Singapore">Singapore</option>
+						<option value="Taiwan">Taiwan</option>
+						<option value="Thailand">Thailand</option>
+						<option value="ToT">Temple of Time</option>
+						<option value="VicIsland">Victoria Island</option>
+						<option value="Zipangu">Zipangu</option>
 						
 					</select>
 					</fieldset>
@@ -93,18 +107,18 @@ function dmgType(type) {
 				<div class="row-char">
 					<fieldset>
 					<legend>Mob</legend>
-						<select size="8" name="mobs" id="mobs">
-							<option value="VicIsland">Test</option>
+						<select size="7" name="mobs" id="mobs">
+							<option>Please select a world</option>
 						</select>
 					</fieldset>
 				</div>
-			</div>
-			<br>
-			<div class="row-mob">
-				<div class="item">test</div>
-				<div class="item">test2</div>
-			</div>
+			</div>		
 		</div>
+	<script>
+			$( ".areas" ).change(function() {
+				alert("Hi");
+			}
+	</script>
 	</body>
 
 </html>
