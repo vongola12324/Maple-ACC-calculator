@@ -208,7 +208,7 @@
                             <option value="MuLung">Mu Lung</option>
                             <option value="Neotokyo">Neotokyo</option>
                             <option value="Nihal">Ariant/Magatia</option>
-                            <option value="Orbis/El Nath">Orbis/El Nath</option>
+                            <option value="OrbNath">Orbis/El Nath</option>
                             <option value="PQ">PQ/Job</option>
                             <option value="Singapore">Singapore</option>
                             <option value="Taiwan">Taiwan</option>
