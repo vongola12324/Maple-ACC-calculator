@@ -10,6 +10,10 @@
                 margin-right:auto;
                 text-align: center;
             }
+            th, td,img{
+                max-height: 200px;
+                max-width: 200px;
+            }
             input,select{
                 width:100%;
             }
@@ -226,7 +230,7 @@
                         <br>
                         <input autocomplete="off" id="search" size="9" value="Search..." style="text-align: left;"></input>
                         <br>
-                        <select class="mobs" size="7" name="mobs" id="mobs" onchange="mobSelect(this.value)">
+                        <select style="overflow-y: auto;" class="mobs" size="7" name="mobs" id="mobs" onchange="mobSelect(this.value)">
                             <option value="null">Select a world</option>
                         </select>
                     </td>
@@ -241,7 +245,7 @@
                         <input type="text" id="mobRate" size="17" disabled="true">
                     </td>
                 </tr>
-                <tr>
+                <tr style="height: 200px; width: 200px;">
                     <td>
                         <a id="liblink" target="_blank">
                             <img id="mobPic" src=""/>
