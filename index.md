@@ -230,7 +230,7 @@
                         <br>
                         <input autocomplete="off" id="search" size="9" value="Search..." style="text-align: left;"></input>
                         <br>
-                        <select style="overflow-y: auto;" class="mobs" size="7" name="mobs" id="mobs" onchange="mobSelect(this.value)">
+                        <select class="mobs" size="7" name="mobs" id="mobs" onchange="mobSelect(this.value)">
                             <option value="null">Select a world</option>
                         </select>
                     </td>
