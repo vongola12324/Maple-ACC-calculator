@@ -10,6 +10,10 @@
                 margin-right:auto;
                 text-align: center;
             }
+            th, td,img{
+                max-height: 200px;
+                max-width: 200px;
+            }
             input,select{
                 width:100%;
             }
@@ -241,7 +245,7 @@
                         <input type="text" id="mobRate" size="17" disabled="true">
                     </td>
                 </tr>
-                <tr>
+                <tr style="height: 200px; width: 200px;">
                     <td>
                         <a id="liblink" target="_blank">
                             <img id="mobPic" src=""/>
