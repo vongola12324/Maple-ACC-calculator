@@ -2,7 +2,7 @@
     <head>
         <meta charset="utf-8">
         <title>ML Accuracy Calculator</title>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> 
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> 
         <style>
             table, th, td{
                 border: 2px solid black;
@@ -90,7 +90,7 @@
 				document.getElementById("dmgType").innerHTML=type;
             }
             function worldSelect(world){
-				$.getJSON('https://mrsoupman.github.io/Maple-ACC-calculator/Monsters/' + world + '.json',function(data){
+				$.getJSON('Monsters/' + world + '.json',function(data){
 					loadedjson = data;
 					$('#mobs').empty();
 					$.each(data, function(key, value) {
@@ -100,7 +100,7 @@
             }
             function mobSelect(mob){
 				if(mob != "null"){
-                    document.getElementById('mobPic').src = 'https://mrsoupman.github.io/Maple-ACC-calculator/images/' + loadedjson[mob]["id"] + '.png';
+                    document.getElementById('mobPic').src = 'images/' + loadedjson[mob]["id"] + '.png';
                     document.getElementById('mobLevel').value = loadedjson[mob]["level"];
                     document.getElementById('mobAvoid').value = loadedjson[mob]["avoid"];
                     document.getElementById('HP').innerHTML = loadedjson[mob]["hp"];
