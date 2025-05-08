@@ -1,6 +1,5 @@
 /**
  * MapleStory Accuracy Calculator
- * Modern JavaScript implementation with enhanced UI/UX
  */
 
 // Main class to handle the calculator functionality
@@ -66,7 +65,7 @@ class MapleAccuracyCalculator {
       }
     });
 
-    // Add event listeners for buttons with visual feedback
+    // Add event listeners for buttons
     const buttons = {
       'sortByLevel': () => this.sortByLevel(),
       'sortByName': () => this.sortByName(),
@@ -75,10 +74,7 @@ class MapleAccuracyCalculator {
 
     Object.entries(buttons).forEach(([id, callback]) => {
       const button = document.getElementById(id);
-      button.addEventListener('click', () => {
-        // Execute callback without animation
-        callback();
-      });
+      button.addEventListener('click', callback);
     });
     
     // Highlight the default sort button (sortByLevel)
@@ -405,8 +401,6 @@ class MapleAccuracyCalculator {
     } else if (accRatio < 0) {
       accRatio = 0;
     }
-    
-    // Animations removed as requested
     
     document.getElementById('mob1acc').innerHTML = acc1.toPrecision(3);
     document.getElementById('mob100acc').innerHTML = acc100.toPrecision(3);
