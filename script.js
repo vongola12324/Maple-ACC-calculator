@@ -69,7 +69,6 @@ class MapleAccuracyCalculator {
     const buttons = {
       'sortByLevel': () => this.sortByLevel(),
       'sortByName': () => this.sortByName(),
-      'calculateBtn': () => this.calculateAcc()
     };
 
     Object.entries(buttons).forEach(([id, callback]) => {
@@ -85,7 +84,18 @@ class MapleAccuracyCalculator {
     damageTypeRadios.addEventListener('change', (event) => {
       if (event.target.type === 'radio') {
         this.dmgType(event.target.value);
+        // Auto-calculate when damage type changes
+        this.calculateAcc();
       }
+    });
+
+    // Add event listeners for input fields to auto-calculate
+    const inputFields = ['level', 'mainstat', 'luk'];
+    inputFields.forEach(fieldId => {
+      const inputElement = document.getElementById(fieldId);
+      inputElement.addEventListener('input', () => {
+        this.calculateAcc();
+      });
     });
   }
   
@@ -118,6 +128,16 @@ class MapleAccuracyCalculator {
         
         // Trigger area selection
         this.areaSelect(value);
+        
+        // Re-apply search filter if there's text in the search box
+        const searchInput = document.getElementById('search');
+        if (searchInput.value.trim() !== '') {
+          // We need to wait for the monsters to load before applying the filter
+          setTimeout(() => {
+            const event = new Event('keyup');
+            searchInput.dispatchEvent(event);
+          }, 300); // Small delay to ensure monsters are loaded
+        }
       });
     });
     
@@ -259,6 +279,9 @@ class MapleAccuracyCalculator {
       document.getElementById('weak').innerHTML = this.elementChecker(mobData.weak).join(', ');
       document.getElementById('strong').innerHTML = this.elementChecker(mobData.strong).join(', ');
       document.getElementById('immune').innerHTML = this.elementChecker(mobData.immune).join(', ');
+      
+      // Auto-calculate when a monster is selected
+      this.calculateAcc();
     } else {
       // Show placeholder and hide content if no valid monster is selected
       document.getElementById('monster-placeholder').style.display = 'flex';

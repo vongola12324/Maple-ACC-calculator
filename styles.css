@@ -242,12 +242,23 @@ article h3 {
   justify-content: center;
   gap: 0.8rem;
   margin-top: 1rem;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.3rem;
 }
 
 .character-buttons button {
   min-width: 100px;
   padding: 0.4rem 0.8rem;
+}
+
+/* Auto-calculation note */
+.auto-calc-note {
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+
+.auto-calc-note small {
+  color: var(--secondary);
+  font-style: italic;
 }
 
 /* Results section and Monster combined section */
