@@ -70,13 +70,21 @@ article h3 {
 
 /* Row layouts */
 .monster-row {
-  grid-template-columns: 1fr 1fr;
+  display: flex;
   margin-bottom: 0.8rem;
 }
 
+.monster-row > div {
+  flex: 1;
+}
+
 .character-row {
-  grid-template-columns: 1fr 1fr;
+  display: flex;
   margin-bottom: 0.8rem;
+}
+
+.character-row > div {
+  flex: 1;
 }
 
 /* Custom Dropdown Styles */
@@ -381,11 +389,14 @@ article h3 {
 
 
 .result-card .grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: flex;
   gap: 1rem;
   padding: 1rem 0.8rem;
   text-align: center;
+}
+
+.result-card .grid p {
+  flex: 1;
 }
 
 .result-card .grid p {
@@ -478,15 +489,20 @@ label {
   margin-bottom: 0.2rem;
 }
 
-/* Grid adjustments */
+/* Grid/Flex adjustments */
 .grid {
+  display: flex;
   gap: 0.8rem;
+}
+
+.grid > div {
+  flex: 1;
 }
 
 /* Responsive adjustments */
 @media (max-width: 992px) {
   .monster-row {
-    grid-template-columns: 1fr;
+    flex-direction: column;
   }
   
   .monster-image-details-container {
@@ -501,7 +517,11 @@ label {
 
 @media (max-width: 768px) {
   .monster-row, .character-row {
-    grid-template-columns: 1fr;
+    flex-direction: column;
+  }
+  
+  .result-card .grid {
+    flex-direction: column;
   }
   
   .action-buttons, .character-buttons {
