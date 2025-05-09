@@ -43,6 +43,62 @@ The calculator provides three key pieces of information:
 - Uses jQuery for DOM manipulation and AJAX requests
 - Monster data stored in JSON format organized by world/region
 - Implements different formulas for physical and magical accuracy calculations
+- Supports internationalization with multiple language options
+
+## Internationalization
+
+The application supports multiple languages through a custom i18n implementation. Currently, it supports:
+
+- English (US)
+- Traditional Chinese (Taiwan)
+
+### Adding a New Language
+
+To add a new language to the application:
+
+1. **Add a new entry to the `SupportedLanguages` enum in `i18n.js`**:
+
+   ```javascript
+   const SupportedLanguages = {
+     'en-US': {
+       code: 'en-US',
+       name: 'English (US)',
+       flag: '🇺🇸',
+       displayName: 'English (US)'
+     },
+     'zh-TW': {
+       code: 'zh-TW',
+       name: 'Chinese (Traditional)',
+       flag: '🇹🇼',
+       displayName: '繁體中文'
+     },
+     // Add your new language here, for example:
+     'ja-JP': {
+       code: 'ja-JP',
+       name: 'Japanese',
+       flag: '🇯🇵',
+       displayName: '日本語'
+     }
+   };
+   ```
+
+2. **Create a translation file**:
+   
+   Create a new JSON file in the `translations` directory with the same name as your language code (e.g., `ja-JP.json` for Japanese).
+
+3. **Add translations**:
+   
+   Copy the content from `en-US.json` and translate all the values (right side) while keeping the keys (left side) unchanged. For example:
+
+   ```json
+   {
+     "Select Language": "言語を選択",
+     "Monster Selection": "モンスター選択",
+     // ... more translations
+   }
+   ```
+
+That's it! The language selector will automatically include your new language, and the system will handle loading the translations when a user selects it.
 
 ## Credits
 

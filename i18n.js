@@ -10,15 +10,56 @@ import { I18n } from './i18n-wrapper.js';
 const i18n = new I18n();
 
 // Set default locale
-i18n.defaultLocale = 'en';
+i18n.defaultLocale = 'en-US';
 
 // Set fallback locale
 i18n.enableFallback = true;
 i18n.missingBehavior = 'guess';
 
+// Define supported languages
+const SupportedLanguages = {
+  'en-US': {
+    code: 'en-US',
+    name: 'English (US)',
+    flag: '🇺🇸',
+    displayName: 'English (US)'
+  },
+  'zh-TW': {
+    code: 'zh-TW',
+    name: 'Chinese (Traditional)',
+    flag: '🇹🇼',
+    displayName: '繁體中文'
+  },
+  // To add a new language, simply add a new entry here:
+  // ja: {
+  //   code: 'ja',
+  //   name: 'Japanese',
+  //   flag: '🇯🇵',
+  //   displayName: '日本語'
+  // },
+};
+
 // Get user's preferred language from localStorage or use browser language
 const savedLocale = localStorage.getItem('locale');
-const browserLocale = navigator.language.startsWith('zh') ? 'zh-TW' : 'en';
+let browserLocale = 'en-US'; // Default to English (US)
+
+// Try to match browser language with supported languages
+const browserLang = navigator.language;
+// First try exact match
+if (SupportedLanguages[browserLang]) {
+  browserLocale = browserLang;
+} else {
+  // Then try language part only (e.g., 'en' from 'en-US')
+  const langPart = browserLang.split('-')[0];
+  // Find the first language that starts with the language part
+  const matchedLang = Object.keys(SupportedLanguages).find(
+    locale => locale === langPart || locale.startsWith(`${langPart}-`)
+  );
+  if (matchedLang) {
+    browserLocale = matchedLang;
+  }
+}
+
 i18n.locale = savedLocale || browserLocale;
 
 // Cache for loaded translations
@@ -53,27 +94,24 @@ async function loadTranslationFile(locale) {
 // Load translations
 async function loadTranslations() {
   try {
-    // Only load the current locale initially
+    // Get current and default locales
     const currentLocale = i18n.locale;
+    const defaultLocale = i18n.defaultLocale;
     
-    // Always load English as fallback
-    const enTranslations = await loadTranslationFile('en');
+    // Initialize translations object
+    const translations = {};
     
-    // Load current locale if not English
-    let currentTranslations = enTranslations;
-    if (currentLocale !== 'en') {
-      currentTranslations = await loadTranslationFile(currentLocale);
-    }
+    // Always load default locale as fallback
+    const defaultTranslations = await loadTranslationFile(defaultLocale);
+    translations[defaultLocale] = defaultTranslations;
     
-    // Set translations
-    const translations = {
-      en: enTranslations
-    };
-    
-    if (currentLocale !== 'en') {
+    // Load current locale if different from default
+    if (currentLocale !== defaultLocale && SupportedLanguages[currentLocale]) {
+      const currentTranslations = await loadTranslationFile(currentLocale);
       translations[currentLocale] = currentTranslations;
     }
     
+    // Store translations
     i18n.store(translations);
     
     // Initial translation of the page
@@ -85,6 +123,7 @@ async function loadTranslations() {
     return i18n;
   } catch (error) {
     console.error('Error loading translations:', error);
+    return i18n; // Return i18n instance even if there's an error
   }
 }
 
@@ -173,41 +212,30 @@ function createLanguageSelector() {
   const languageOptions = document.createElement('div');
   languageOptions.className = 'language-options';
   
-  // English option
-  const enOption = document.createElement('div');
-  enOption.className = `language-option ${i18n.locale === 'en' ? 'active' : ''}`;
-  enOption.setAttribute('data-locale', 'en');
-  
-  const enIcon = document.createElement('span');
-  enIcon.className = 'language-option-icon';
-  enIcon.textContent = '🇺🇸';
-  
-  const enText = document.createElement('span');
-  enText.className = 'language-option-text';
-  enText.textContent = 'English';
-  
-  enOption.appendChild(enIcon);
-  enOption.appendChild(enText);
-  
-  // Chinese option
-  const zhOption = document.createElement('div');
-  zhOption.className = `language-option ${i18n.locale === 'zh-TW' ? 'active' : ''}`;
-  zhOption.setAttribute('data-locale', 'zh-TW');
-  
-  const zhIcon = document.createElement('span');
-  zhIcon.className = 'language-option-icon';
-  zhIcon.textContent = '🇹🇼';
-  
-  const zhText = document.createElement('span');
-  zhText.className = 'language-option-text';
-  zhText.textContent = '繁體中文';
-  
-  zhOption.appendChild(zhIcon);
-  zhOption.appendChild(zhText);
-  
-  // Add options to container
-  languageOptions.appendChild(enOption);
-  languageOptions.appendChild(zhOption);
+  // Dynamically create language options from SupportedLanguages enum
+  Object.values(SupportedLanguages).forEach(language => {
+    const option = document.createElement('div');
+    option.className = `language-option ${i18n.locale === language.code ? 'active' : ''}`;
+    option.setAttribute('data-locale', language.code);
+    
+    const icon = document.createElement('span');
+    icon.className = 'language-option-icon';
+    icon.textContent = language.flag;
+    
+    const text = document.createElement('span');
+    text.className = 'language-option-text';
+    text.textContent = language.displayName;
+    
+    option.appendChild(icon);
+    option.appendChild(text);
+    languageOptions.appendChild(option);
+    
+    // Add click event listener for this language option
+    option.addEventListener('click', () => {
+      changeLanguage(language.code);
+      languageModal.classList.remove('active');
+    });
+  });
   
   // Assemble modal
   modalContent.appendChild(modalHeader);
@@ -232,36 +260,35 @@ function createLanguageSelector() {
       languageModal.classList.remove('active');
     }
   });
-  
-  // Language selection
-  enOption.addEventListener('click', () => {
-    changeLanguage('en');
-    languageModal.classList.remove('active');
-  });
-  
-  zhOption.addEventListener('click', () => {
-    changeLanguage('zh-TW');
-    languageModal.classList.remove('active');
-  });
 }
 
 // Change language
 async function changeLanguage(locale) {
+  // Verify the locale is supported
+  if (!SupportedLanguages[locale]) {
+    console.error(`Unsupported locale: ${locale}`);
+    return;
+  }
+
   // If translations for this locale are not loaded yet, load them
   if (!loadedTranslations[locale]) {
     // Show loading indicator
     document.body.style.cursor = 'wait';
     
-    // Load the translation file
-    const translations = await loadTranslationFile(locale);
-    
-    // Update the i18n store with the new translations
-    const updatedTranslations = { ...i18n.translations };
-    updatedTranslations[locale] = translations;
-    i18n.store(updatedTranslations);
-    
-    // Reset cursor
-    document.body.style.cursor = 'default';
+    try {
+      // Load the translation file
+      const translations = await loadTranslationFile(locale);
+      
+      // Update the i18n store with the new translations
+      const updatedTranslations = { ...i18n.translations };
+      updatedTranslations[locale] = translations;
+      i18n.store(updatedTranslations);
+    } catch (error) {
+      console.error(`Failed to load translations for ${locale}:`, error);
+    } finally {
+      // Reset cursor
+      document.body.style.cursor = 'default';
+    }
   }
   
   // Set the new locale
@@ -282,8 +309,8 @@ async function changeLanguage(locale) {
   translatePage();
 }
 
-// Export the i18n instance and the loadTranslations function
-export { i18n, loadTranslations };
+// Export the i18n instance, loadTranslations function, and SupportedLanguages enum
+export { i18n, loadTranslations, SupportedLanguages };
 
 // Initialize translations when the script loads and export the promise
 export const translationsLoaded = loadTranslations();
