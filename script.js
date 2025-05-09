@@ -2,6 +2,9 @@
  * MapleStory Accuracy Calculator
  */
 
+// Import i18n instance and translations loaded promise from i18n.js
+import { i18n, translationsLoaded } from './i18n.js';
+
 // Main class to handle the calculator functionality
 class MapleAccuracyCalculator {
   constructor() {
@@ -58,7 +61,12 @@ class MapleAccuracyCalculator {
         options.forEach(option => {
           const level = option.dataset.mobLevel.toString();
           const name = option.dataset.mobName.toLowerCase();
-          if (!name.includes(inp) && level !== inp) {
+          
+          // Get the displayed name (which might be translated)
+          const displayedName = option.querySelector('.mob-name')?.textContent.toLowerCase() || '';
+          
+          // Check if the search term is in the original name, level, or translated name
+          if (!name.includes(inp) && !displayedName.includes(inp) && level !== inp) {
             option.style.display = 'none';
           }
         });
@@ -168,7 +176,8 @@ class MapleAccuracyCalculator {
     document.forms.calc.reset();
     document.getElementById("luk").disabled = true;
     document.getElementById("luk").parentElement.style.visibility = 'hidden';
-    document.getElementById("dmgType").innerHTML = 'ACC';
+    document.getElementById("dmgType").innerHTML = i18n ? i18n.t('ACC') : 'ACC';
+    document.getElementById("dmgType").setAttribute('data-i18n', 'ACC');
     document.getElementById("liblink").href = '';
     document.getElementById("mobPic").src = '';
     document.getElementById('HP').innerHTML = '-';
@@ -179,7 +188,8 @@ class MapleAccuracyCalculator {
     
     const mobsDropdown = document.getElementById('mobs');
     const mobsOptionsList = mobsDropdown.querySelector('.dropdown-options');
-    mobsOptionsList.innerHTML = '<div class="dropdown-option" data-value="null">Select a area first</div>';
+    const pleaseSelectText = i18n ? i18n.t('Please select a monster') : 'Please select a monster';
+    mobsOptionsList.innerHTML = `<div class="dropdown-option" data-value="null" data-i18n="Please select a monster">${pleaseSelectText}</div>`;
     
     // Add click event to the default option
     const defaultOption = mobsOptionsList.querySelector('.dropdown-option');
@@ -191,8 +201,10 @@ class MapleAccuracyCalculator {
     // Reset area dropdown selected option
     const areasDropdown = document.getElementById('areas');
     const areasSelectedOption = areasDropdown.querySelector('.selected-option');
-    areasSelectedOption.textContent = 'All Worlds';
+    const allWorldsText = i18n ? i18n.t('All Worlds') : 'All Worlds';
+    areasSelectedOption.textContent = allWorldsText;
     areasSelectedOption.setAttribute('data-value', 'all');
+    areasSelectedOption.setAttribute('data-i18n', 'All Worlds');
     
     // Clear result fields
     document.getElementById('mob1acc').innerHTML = '-';
@@ -208,11 +220,12 @@ class MapleAccuracyCalculator {
   elementChecker(array) {
     const elements = [];
     
-    if (array[0]) elements.push('Ice');
-    if (array[1]) elements.push('Lightning');
-    if (array[2]) elements.push('Fire');
-    if (array[3]) elements.push('Poison');
-    if (array[4]) elements.push('Holy');
+    // Use i18n.t() which will return the original text if translation doesn't exist
+    if (array[0]) elements.push(i18n ? i18n.t('Ice') : 'Ice');
+    if (array[1]) elements.push(i18n ? i18n.t('Lightning') : 'Lightning');
+    if (array[2]) elements.push(i18n ? i18n.t('Fire') : 'Fire');
+    if (array[3]) elements.push(i18n ? i18n.t('Poison') : 'Poison');
+    if (array[4]) elements.push(i18n ? i18n.t('Holy') : 'Holy');
     
     return elements.length > 0 ? elements : ['-'];
   }
@@ -224,11 +237,13 @@ class MapleAccuracyCalculator {
     if (type !== 'physical') {
       document.getElementById("luk").disabled = false;
       lukContainer.style.visibility = 'visible';
-      document.getElementById("dmgType").innerHTML = 'INT';
+      document.getElementById("dmgType").innerHTML = i18n ? i18n.t('INT') : 'INT';
+      document.getElementById("dmgType").setAttribute('data-i18n', 'INT');
     } else {
       document.getElementById("luk").disabled = true;
       lukContainer.style.visibility = 'hidden';
-      document.getElementById("dmgType").innerHTML = 'ACC';
+      document.getElementById("dmgType").innerHTML = i18n ? i18n.t('ACC') : 'ACC';
+      document.getElementById("dmgType").setAttribute('data-i18n', 'ACC');
     }
   }
 
@@ -313,7 +328,14 @@ class MapleAccuracyCalculator {
       option.dataset.value = key;
       option.dataset.mobName = key;
       option.dataset.mobLevel = value.level;
-      option.innerHTML = `<div class="mob-option-flex"><div class="mob-level">Lv.${value.level}</div><div class="mob-name">${key}</div></div>`;
+      
+      // Translate monster name if i18n is available
+      const translatedName = i18n ? i18n.t(key) : key;
+      
+      option.innerHTML = `<div class="mob-option-flex">
+        <div class="mob-level">Lv.${value.level}</div>
+        <div class="mob-name" data-i18n="${key}" data-original-text="${key}">${translatedName}</div>
+      </div>`;
       
       // Add click event to each option
       option.addEventListener('click', () => {
@@ -347,6 +369,10 @@ class MapleAccuracyCalculator {
     
     // Sort the data by name directly
     const sortedEntries = Object.entries(this.loadedjson).sort((a, b) => {
+      // If i18n is available, sort by translated names
+      if (i18n) {
+        return i18n.t(a[0]).localeCompare(i18n.t(b[0]));
+      }
       return a[0].localeCompare(b[0]);
     });
     
@@ -357,7 +383,14 @@ class MapleAccuracyCalculator {
       option.dataset.value = key;
       option.dataset.mobName = key;
       option.dataset.mobLevel = value.level;
-      option.innerHTML = `<div class="mob-option-flex"><div class="mob-level">Lv.${value.level}</div><div class="mob-name">${key}</div></div>`;
+      
+      // Translate monster name if i18n is available
+      const translatedName = i18n ? i18n.t(key) : key;
+      
+      option.innerHTML = `<div class="mob-option-flex">
+        <div class="mob-level">Lv.${value.level}</div>
+        <div class="mob-name" data-i18n="${key}" data-original-text="${key}">${translatedName}</div>
+      </div>`;
       
       // Add click event to each option
       option.addEventListener('click', () => {
@@ -431,8 +464,11 @@ class MapleAccuracyCalculator {
   }
 }
 
-// Initialize the calculator when the DOM is fully loaded
-document.addEventListener('DOMContentLoaded', () => {
+// Initialize the calculator when the DOM is fully loaded and translations are ready
+document.addEventListener('DOMContentLoaded', async () => {
+  // Wait for translations to be loaded
+  await translationsLoaded;
+  
   const calculator = new MapleAccuracyCalculator();
   
   // Initialize the custom dropdowns after the DOM is fully loaded

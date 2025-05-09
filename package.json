@@ -4,9 +4,6 @@
   "scripts": {
     "dev": "http-server ."
   },
-  "dependencies": {
-    "i18n-js": "^4.5.1"
-  },
   "devDependencies": {
     "http-server": "^14.1.1"
   }
