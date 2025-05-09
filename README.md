@@ -111,6 +111,23 @@ Special thanks to:
 
 This project is available for free use by the MapleStory community.
 
+## Deployment
+
+This project is automatically deployed to GitHub Pages using GitHub Actions. The deployment workflow is defined in `.github/workflows/deploy.yml`.
+
+### How it works
+
+1. When changes are pushed to the `main` branch, the GitHub Actions workflow is triggered.
+2. The workflow checks out the code and deploys it to the `gh-pages` branch.
+3. GitHub Pages serves the content from the `gh-pages` branch.
+
+### Manual Deployment
+
+If you need to deploy manually, you can:
+
+1. Push your changes to the `main` branch, which will trigger the automatic deployment.
+2. Or, manually create a `gh-pages` branch and push your changes to it.
+
 ## How to Contribute
 
 Contributions to improve the calculator or expand the monster database are welcome. Please feel free to submit pull requests or open issues for any bugs or feature requests.
