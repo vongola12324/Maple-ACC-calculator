@@ -236,7 +236,7 @@ class MapleAccuracyCalculator {
   areaSelect(area) {
     const xhr = new XMLHttpRequest();
     xhr.overrideMimeType("application/json");
-    xhr.open('GET', `Monsters/${area}.json`, true);
+    xhr.open('GET', `monsters/${area}.json`, true);
     
     xhr.onreadystatechange = () => {
       if (xhr.readyState === 4) {
