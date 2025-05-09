@@ -40,7 +40,7 @@ The calculator provides three key pieces of information:
 ## Technical Details
 
 - Built as a single-page application using HTML, CSS, and JavaScript
-- Uses jQuery for DOM manipulation and AJAX requests
+- Uses vanilla JavaScript for DOM manipulation and AJAX requests
 - Monster data stored in JSON format organized by world/region
 - Implements different formulas for physical and magical accuracy calculations
 - Supports internationalization with multiple language options
